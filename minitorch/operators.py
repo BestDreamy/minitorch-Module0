@@ -32,8 +32,65 @@ from typing import Callable, Iterable
 # $f(x) = |x - y| < 1e-2$
 
 
-# TODO: Implement for Task 0.1.
+def mul(x, y):
+    return x * y
 
+def id(x):
+    return x
+
+def add(x, y):
+    return x + y
+
+def neg(x):
+    return -x
+
+def lt(x, y):
+    return x < y 
+
+def eq(x, y):
+    return x == y
+
+def max(x, y):
+    return x if x > y else y
+
+def abs(x):
+    return x if x >= 0 else -x
+
+eps = 1e-6
+
+def is_close(x, y):
+    return abs(x - y) < eps
+
+def sigmoid(x):
+    return 1 / (1 + math.e ** (-x))
+
+def exp(x):
+    return math.exp(x)
+
+def relu(x):
+    """
+    `f(x) =` x if x is greater than 0, else 0
+
+    (See `<https://en.wikipedia.org/wiki/Rectifier_(neural_networks)>`_ .)
+    """
+    return x if x > 0 else 0
+
+
+def relu_back(x, y):
+    "`f(x) =` y if x is greater than 0 else 0"
+    return y if x > 0 else 0
+
+def log(x):
+    return math.log(x + eps)
+
+def log_back(a, b):
+    return b / (a + eps)
+
+def inv(x):
+    return 1 / x
+
+def inv_back(a, b):
+    return -(1 / a ** 2) * b
 
 # ## Task 0.3
 
@@ -51,4 +108,42 @@ from typing import Callable, Iterable
 # - prod: take the product of lists
 
 
-# TODO: Implement for Task 0.3.
+def map(func):
+
+    def map_list(l):
+        return [func(it) for it in l]
+
+    return map_list
+
+def negList(l):
+
+    return map(neg)(l)
+
+def zipWith(func):
+
+    def zipWith_list(a, b):
+        return [func(x, y) for x, y in zip(a, b)]
+
+    return zipWith_list
+
+def addLists(a, b):
+
+    return zipWith(add)(a, b)
+
+def reduce(func, start):
+
+    def reduce_list(l):
+        ans = start
+        for it in l:
+            ans = func(ans, it)
+        return ans
+
+    return reduce_list
+
+def sum(l):
+
+    return reduce(add, 0)(l) 
+
+def prod(l):
+
+    return reduce(mul, 1)(l)
