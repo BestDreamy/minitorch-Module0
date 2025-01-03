@@ -18,6 +18,7 @@ class Module:
     _modules: Dict[str, Module]
     _parameters: Dict[str, Parameter]
     training: bool
+    # mode: str
 
     def __init__(self) -> None:
         self._modules = {}
@@ -31,13 +32,19 @@ class Module:
 
     def train(self) -> None:
         """Set the mode of this module and all descendent modules to `train`."""
-        # TODO: Implement for Task 0.4.
-        raise NotImplementedError("Need to implement for Task 0.4")
+        self.mode = "train"
+
+        modules_lst = modules(self)
+        for i in range(len(modules_lst)):
+            train(modules_lst[i])
 
     def eval(self) -> None:
         """Set the mode of this module and all descendent modules to `eval`."""
-        # TODO: Implement for Task 0.4.
-        raise NotImplementedError("Need to implement for Task 0.4")
+        self.mode = "eval"
+
+        modules_lst = modules(self)
+        for i in range(len(modules_lst)):
+            train(modules_lst[i])
 
     def named_parameters(self) -> Sequence[Tuple[str, Parameter]]:
         """Collect all the parameters of this module and its descendents.
@@ -47,13 +54,21 @@ class Module:
             The name and `Parameter` of each ancestor parameter.
 
         """
-        # TODO: Implement for Task 0.4.
-        raise NotImplementedError("Need to implement for Task 0.4")
+        def find_parameter(name: str, module: Module) -> Sequence[Tuple[str, Parameter]]:
+            parameter = module
+            lst += [(name, )]
+
+
+        name: str = ""
+        lst: list = []
+        m: Sequence[Module] = mo
+
+
 
     def parameters(self) -> Sequence[Parameter]:
         """Enumerate over all the parameters of this module and its descendents."""
-        # TODO: Implement for Task 0.4.
-        raise NotImplementedError("Need to implement for Task 0.4")
+        p: Dict[str, Parameter] = self.__dict__["_parameters"]
+        return list(p.values())
 
     def add_parameter(self, k: str, v: Any) -> Parameter:
         """Manually add a parameter. Useful helper for scalar parameters.
@@ -127,6 +142,8 @@ class Parameter:
     """
 
     def __init__(self, x: Any, name: Optional[str] = None) -> None:
+        # self.value.requires_grad_()
+        # self.value.name
         self.value = x
         self.name = name
         if hasattr(x, "requires_grad_"):
